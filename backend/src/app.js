@@ -11,6 +11,12 @@ const app = express();
 app.use(cors());
 app.use(json());
 app.use("/uploads", express.static("uploads"));
+app.use(cors({
+  origin: [
+    "https://itsharsh.dev",
+    "https://www.itsharsh.dev"
+  ]
+}));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/skills", skillsRoutes);
