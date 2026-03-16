@@ -195,7 +195,7 @@ export default function SkillsManager() {
                             src={skill.icon}
                             alt={skill.name}
                             className="w-8 h-8 object-contain"
-                            onError={(e) => (e.target.src = "https://cdn-icons-png.flaticon.com/512/25/25231.png")} 
+                            onError={(e) => ((e.target as HTMLImageElement).src = "https://cdn-icons-png.flaticon.com/512/25/25231.png")} 
                           />
                         </div>
                         <div>
