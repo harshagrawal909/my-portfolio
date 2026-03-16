@@ -1,8 +1,18 @@
 import {Schema, model} from "mongoose"
 
 const resumeSchema = new Schema({
-    fileUrl: {
+    fileName: {
         type: String,
+        required: true
+    },
+
+    mimeType: {
+        type: String,
+        required: true
+    },
+
+    fileData: {
+        type: Buffer,
         required: true
     },
 
