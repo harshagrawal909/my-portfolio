@@ -135,16 +135,16 @@ export default function ResumeManager(){
                                 {resume && (
                                     <div className="flex gap-2">
                                         <a
-                                        href={`${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`}
-                                        className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 transition"
-                                        title="Open in same tab"
+                                            href={resume.fileUrl}
+                                            className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 transition"
+                                            title="Open in same tab"
                                         >
                                         <FaEye />
                                         </a>
                                         <a
-                                        href={`${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`}
-                                        download
-                                        className="p-2 bg-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white rounded-lg transition"
+                                            href={resume.fileUrl}
+                                            download
+                                            className="p-2 bg-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white rounded-lg transition"
                                         >
                                         <FaDownload />
                                         </a>
@@ -154,7 +154,7 @@ export default function ResumeManager(){
                             <div className="flex-1 bg-black/20 rounded-2xl overflow-hidden relative">
                                 {resume ? (
                                     <iframe
-                                        src={`${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}#toolbar=0`}
+                                        src={`${resume.fileUrl}#toolbar=0`}
                                         className="w-full h-full border-none"
                                     />
                                     ) : (
