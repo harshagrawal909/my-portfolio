@@ -51,7 +51,18 @@ export default function ResumeManager(){
                 },
                 body: formData
             });
-            const data = await res.json();
+            const raw = await res.text();
+            let data: { message?: string } = {};
+
+            try {
+                data = raw ? JSON.parse(raw) : {};
+            } catch {
+                data = {
+                    message: res.ok
+                        ? "Upload completed"
+                        : `Upload failed with status ${res.status}`
+                };
+            }
     
             if (!res.ok) {
                 alert(data.message || "Upload failed");
