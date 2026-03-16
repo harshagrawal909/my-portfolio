@@ -4,6 +4,7 @@ import { FaCloudUploadAlt, FaRegFilePdf, FaEye, FaDownload } from "react-icons/f
 
 interface Resume{
     fileUrl:string;
+    downloadUrl?: string;
 }
 
 export default function ResumeManager(){
@@ -15,6 +16,11 @@ export default function ResumeManager(){
             ? resume.fileUrl
             : `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`)
         : null;
+    const resumeDownloadUrl = resume?.downloadUrl
+        ? (resume.downloadUrl.startsWith("http")
+            ? resume.downloadUrl
+            : `${process.env.NEXT_PUBLIC_API_URL}${resume.downloadUrl}`)
+        : resumeUrl;
 
     useEffect(() => {
         fetchResume();
@@ -147,7 +153,7 @@ export default function ResumeManager(){
                                         <FaEye />
                                         </a>
                                         <a
-                                            href={resumeUrl || undefined}
+                                            href={resumeDownloadUrl || undefined}
                                             download
                                             className="p-2 bg-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white rounded-lg transition"
                                         >

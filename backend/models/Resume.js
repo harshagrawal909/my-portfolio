@@ -10,9 +10,20 @@ const resumeSchema = new Schema({
         type: String,
         required: true
     },
+
     fileUrl: {
         type:String,
         required:true
+    },
+
+    publicId: {
+        type: String,
+        required: false
+    },
+
+    resourceType: {
+        type: String,
+        default: "raw"
     },
 
     fileData: {
