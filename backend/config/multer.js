@@ -5,7 +5,7 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 const storage = new CloudinaryStorage({
   cloudinary,
   params:{
-    folder: " portfolio-resume",
+    folder: "portfolio-resume",
     resource_type: "auto",    
     allowed_formats: ['pdf'],
   }
