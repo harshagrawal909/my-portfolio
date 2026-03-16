@@ -14,8 +14,7 @@ Includes an admin dashboard to dynamically manage **skills**, **projects**, and 
 
 ## 🚀 Demo
 
-- 🌐 Frontend (Vercel): _Add your live URL here_
-- ⚙️ Backend API (Render): _Add your live API URL here_
+- 🌐 Frontend (Vercel): https://www.itsharsh.dev/
 
 ---
 
