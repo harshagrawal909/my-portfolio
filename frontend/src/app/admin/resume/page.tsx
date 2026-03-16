@@ -9,74 +9,74 @@ interface Resume{
 
 export default function ResumeManager(){
     const [resume,setResume] = useState<Resume | null>(null);
-    const [file,setFile] = useState<File | null>(null);
+    // const [file,setFile] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
-    const resumeUrl = resume?.fileUrl
-        ? (resume.fileUrl.startsWith("http")
-            ? resume.fileUrl
-            : `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`)
-        : null;
-    const resumeDownloadUrl = resume?.downloadUrl
-        ? (resume.downloadUrl.startsWith("http")
-            ? resume.downloadUrl
-            : `${process.env.NEXT_PUBLIC_API_URL}${resume.downloadUrl}`)
-        : resumeUrl;
+    // const resumeUrl = resume?.fileUrl
+    //     ? (resume.fileUrl.startsWith("http")
+    //         ? resume.fileUrl
+    //         : `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`)
+    //     : null;
+    // const resumeDownloadUrl = resume?.downloadUrl
+    //     ? (resume.downloadUrl.startsWith("http")
+    //         ? resume.downloadUrl
+    //         : `${process.env.NEXT_PUBLIC_API_URL}${resume.downloadUrl}`)
+    //     : resumeUrl;
 
-    useEffect(() => {
-        fetchResume();
-    },[])
+    // useEffect(() => {
+    //     fetchResume();
+    // },[])
 
-    const fetchResume = async() => {
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
-            const data = await res.json();
-            setResume(data);
-        } catch (error) {
-            console.log("Error fetching resume:", error);
-        }
-    }
+    // const fetchResume = async() => {
+    //     try {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
+    //         const data = await res.json();
+    //         setResume(data);
+    //     } catch (error) {
+    //         console.log("Error fetching resume:", error);
+    //     }
+    // }
 
-    const uploadResume = async() => {
-        if(!file) return;
-        setIsUploading(true);
-        const token = localStorage.getItem("token");
-        const formData = new FormData();
-        formData.append("resume", file);
+    // const uploadResume = async() => {
+    //     if(!file) return;
+    //     setIsUploading(true);
+    //     const token = localStorage.getItem("token");
+    //     const formData = new FormData();
+    //     formData.append("resume", file);
 
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume/upload`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                body: formData
-            });
-            const raw = await res.text();
-            let data: { message?: string } = {};
+    //     try {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume/upload`, {
+    //             method: "POST",
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             },
+    //             body: formData
+    //         });
+    //         const raw = await res.text();
+    //         let data: { message?: string } = {};
 
-            try {
-                data = raw ? JSON.parse(raw) : {};
-            } catch {
-                data = {
-                    message: res.ok
-                        ? "Upload completed"
-                        : `Upload failed with status ${res.status}`
-                };
-            }
+    //         try {
+    //             data = raw ? JSON.parse(raw) : {};
+    //         } catch {
+    //             data = {
+    //                 message: res.ok
+    //                     ? "Upload completed"
+    //                     : `Upload failed with status ${res.status}`
+    //             };
+    //         }
     
-            if (!res.ok) {
-                alert(data.message || "Upload failed");
-                return;
-            }
-            alert("Resume uploaded successfully");
-            setFile(null);
-            fetchResume();
-        } catch (error: any) {
-            alert(error.message);
-        } finally{
-            setIsUploading(false);
-        }
-    }
+    //         if (!res.ok) {
+    //             alert(data.message || "Upload failed");
+    //             return;
+    //         }
+    //         alert("Resume uploaded successfully");
+    //         setFile(null);
+    //         fetchResume();
+    //     } catch (error: any) {
+    //         alert(error.message);
+    //     } finally{
+    //         setIsUploading(false);
+    //     }
+    // }
 
     return (
         <div className="relative min-h-screen bg-[#050505] text-white p-10 overflow-hidden">
@@ -125,21 +125,21 @@ export default function ResumeManager(){
 
                             <label className="group relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-white/10 rounded-2xl cursor-pointer hover:border-purple-500/50 hover:bg-purple-500/5 transition-all mb-6">
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <FaRegFilePdf className={`text-3xl mb-3 ${file ? 'text-green-400' : 'text-gray-500 group-hover:text-purple-400'}`} />
+                                    <FaRegFilePdf className={`text-3xl mb-3 `} />
                                     <p className="text-sm text-gray-400 text-center px-4">
-                                        {file ? <span className="text-white font-medium">{file.name}</span> : "Click to select or drag PDF"}
+                                        <span className="text-white font-medium">"Click to select or drag PDF"</span>  
                                     </p>
                                 </div>
                                 <input
                                     type="file" 
                                     className="hidden"
                                     accept=".pdf"
-                                    onChange={(e) => e.target.files && setFile(e.target.files[0])}
+                                    // onChange={(e) => e.target.files && setFile(e.target.files[0])}
                                 />
                             </label>
                             <button
-                                onClick={uploadResume}
-                                disabled={!file || isUploading}
+                                // onClick={uploadResume}
+                                // disabled={!file || isUploading}
                                 className="w-full py-4 bg-linear-to-r from-purple-600 to-blue-600 rounded-xl font-bold uppercase tracking-widest text-xs shadow-lg shadow-purple-900/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100 transition-all cursor-pointer"
                             >
                                 {isUploading ? "Syncing..." : "Update Resume"}
@@ -157,14 +157,14 @@ export default function ResumeManager(){
                                 {resume && (
                                     <div className="flex gap-2">
                                         <a
-                                            href={resumeUrl || undefined}
+                                            href={undefined}
                                             className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 transition"
                                             title="Open in same tab"
                                         >
                                         <FaEye />
                                         </a>
                                         <a
-                                            href={resumeDownloadUrl || undefined}
+                                            href={undefined}
                                             download
                                             className="p-2 bg-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white rounded-lg transition"
                                         >
@@ -174,16 +174,9 @@ export default function ResumeManager(){
                                 )}
                             </div>
                             <div className="flex-1 bg-black/20 rounded-2xl overflow-hidden relative">
-                                {resume ? (
-                                    <iframe
-                                        src={`${resumeUrl}#toolbar=0`}
-                                        className="w-full h-full border-none"
-                                    />
-                                    ) : (
-                                    <div className="absolute inset-0 flex items-center justify-center text-gray-600 text-sm">
-                                        No resume found in database.
-                                    </div>
-                                )}
+                                <div className="absolute inset-0 flex items-center justify-center text-gray-600 text-sm">
+                                    No resume found in database.
+                                </div>
                             </div>
                         </div>
                     </div>

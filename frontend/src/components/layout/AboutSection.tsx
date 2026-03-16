@@ -20,24 +20,20 @@ const abouts = [
 export default function AboutSection() {
     const [showCV, setShowCV] = useState(false);
     const [resume,setResume] = useState<Resume | null>(null);
-    const resumeUrl = resume?.fileUrl
-        ? (resume.fileUrl.startsWith("http")
-            ? resume.fileUrl
-            : `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`)
-        : "/cv.pdf";
+    const resumeUrl = "/harsh_agrawal.pdf";
     
-    useEffect(() => {
-        const fetchResume = async () => {
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
-            const data = await res.json();
-            setResume(data);
-        } catch (error) {
-            console.log("Error fetching resume:", error);
-        }
-        };
-        fetchResume();
-    }, []);
+    // useEffect(() => {
+    //     const fetchResume = async () => {
+    //     try {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
+    //         const data = await res.json();
+    //         setResume(data);
+    //     } catch (error) {
+    //         console.log("Error fetching resume:", error);
+    //     }
+    //     };
+    //     fetchResume();
+    // }, []);
 
     useEffect(() => {
         document.body.style.overflow = showCV ? "hidden" : "auto";
