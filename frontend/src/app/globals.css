@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default margin */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  overflow-x: hidden;
+}
+
+
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.orbit-ring {
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.05),
+    0 0 30px rgba(168,85,247,0.1),
+    inset 0 0 20px rgba(255,255,255,0.05);
+
+  animation: orbitPulse 6s ease-in-out infinite;
+}
+
+@keyframes orbitPulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.01);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+}
+
+.planet-glow {
+  animation: planetPulse 3s ease-in-out infinite;
+}
+
+@keyframes planetPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(168,85,247,0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(168,85,247,0.9);
+  }
+
+  100% {
+    box-shadow: 0 0 10px rgba(168,85,247,0.4);
+  }
+}
