@@ -36,11 +36,7 @@ export const getResume = async (req, res) => {
             return res.json(null);
         }
 
-        res.json({
-            _id: resume._id,
-            fileUrl: req.file.path,
-            uploadedAt: resume.uploadedAt
-        });
+        res.json(resume);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
