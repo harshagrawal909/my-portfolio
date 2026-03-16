@@ -1,7 +1,7 @@
 import multer from "multer";
 import cloudinary from "./cloudinary.js"
 
-const storage = multer.ClodinaryStorage({
+const storage = new ClodinaryStorage({
   cloudinary,
   params:{
     folder: " portfolio-resume",
