@@ -10,10 +10,14 @@ const resumeSchema = new Schema({
         type: String,
         required: true
     },
+    fileUrl: {
+        type:String,
+        required:true
+    },
 
     fileData: {
         type: Buffer,
-        required: true
+        required: false
     },
 
     uploadedAt: {
