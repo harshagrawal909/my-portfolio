@@ -10,6 +10,11 @@ export default function ResumeManager(){
     const [resume,setResume] = useState<Resume | null>(null);
     const [file,setFile] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
+    const resumeUrl = resume?.fileUrl
+        ? (resume.fileUrl.startsWith("http")
+            ? resume.fileUrl
+            : `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`)
+        : null;
 
     useEffect(() => {
         fetchResume();
@@ -135,14 +140,14 @@ export default function ResumeManager(){
                                 {resume && (
                                     <div className="flex gap-2">
                                         <a
-                                            href={resume.fileUrl}
+                                            href={resumeUrl || undefined}
                                             className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 transition"
                                             title="Open in same tab"
                                         >
                                         <FaEye />
                                         </a>
                                         <a
-                                            href={resume.fileUrl}
+                                            href={resumeUrl || undefined}
                                             download
                                             className="p-2 bg-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white rounded-lg transition"
                                         >
@@ -154,7 +159,7 @@ export default function ResumeManager(){
                             <div className="flex-1 bg-black/20 rounded-2xl overflow-hidden relative">
                                 {resume ? (
                                     <iframe
-                                        src={`${resume.fileUrl}#toolbar=0`}
+                                        src={`${resumeUrl}#toolbar=0`}
                                         className="w-full h-full border-none"
                                     />
                                     ) : (

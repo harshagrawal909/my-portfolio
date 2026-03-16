@@ -6,8 +6,8 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params:{
     folder: "portfolio-resume",
-    resource_type: "raw",
-    format: "pdf",
+    resource_type: "image",
+    allowed_formats: ["pdf"],
     public_id: "resume-" + Date.now(),
   }
 });

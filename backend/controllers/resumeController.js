@@ -6,11 +6,17 @@ export const uploadResume = async (req, res) => {
             return res.status(400).json({ message: "Resume file is required" });
         }
 
+        const fileUrl = req.file.path || req.file.secure_url;
+
+        if (!fileUrl) {
+            return res.status(500).json({ message: "Resume URL was not generated" });
+        }
+
         await Resume.deleteMany();
         const resume = new Resume({
             fileName: req.file.originalname,
             mimeType: req.file.mimetype,
-            fileUrl: req.file.path
+            fileUrl
         });
 
         await resume.save();

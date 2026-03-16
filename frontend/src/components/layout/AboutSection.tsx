@@ -20,6 +20,11 @@ const abouts = [
 export default function AboutSection() {
     const [showCV, setShowCV] = useState(false);
     const [resume,setResume] = useState<Resume | null>(null);
+    const resumeUrl = resume?.fileUrl
+        ? (resume.fileUrl.startsWith("http")
+            ? resume.fileUrl
+            : `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`)
+        : "/cv.pdf";
     
     useEffect(() => {
         const fetchResume = async () => {
@@ -145,7 +150,7 @@ export default function AboutSection() {
                             <span className="text-xs font-bold uppercase tracking-widest text-gray-400 px-4">Curriculum Vitae</span>
                             <div className="flex gap-2">
                                 <a 
-                                    href={resume ? `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}` : "/cv.pdf"} 
+                                    href={resumeUrl} 
                                     target="_blank"
                                     className="px-4 py-2 text-xs bg-white/5 hover:bg-white/10 rounded-lg transition text-gray-300"
                                 >
@@ -162,7 +167,7 @@ export default function AboutSection() {
                         
                         <div className="flex-1 bg-white/5">
                             <iframe
-                                src={resume?.fileUrl.startsWith('http') ? `${resume.fileUrl}#toolbar=0` : "${process.env.NEXT_PUBLIC_API_URL}${resume?.fileUrl}#toolbar=0"}
+                                src={`${resumeUrl}#toolbar=0`}
                                 className="w-full h-full border-none"
                             />
                         </div>
