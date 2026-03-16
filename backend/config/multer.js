@@ -1,18 +1,15 @@
 import multer from "multer";
+import cloudinary from "./cloudinary.js"
 
-const storage = multer.memoryStorage();
-
-const upload = multer({
-  storage,
-  limits: {
-    fileSize: 5 * 1024 * 1024
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype !== "application/pdf") {
-      return cb(new Error("Only PDF files are allowed"));
-    }
-    cb(null, true);
+const storage = multer.ClodinaryStorage({
+  cloudinary,
+  params:{
+    folder: " portfolio-resume",
+    resource_type: "auto",    
+    allowed_formats: ['pdf'],
   }
 });
+
+const upload = multer({ storage });
 
 export default upload;

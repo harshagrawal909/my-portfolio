@@ -161,10 +161,10 @@ export default function AboutSection() {
                         </div>
                         
                         <div className="flex-1 bg-white/5">
-                        <iframe
-                            src={resume ? `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}#toolbar=0` : "/cv.pdf#toolbar=0"}
-                            className="w-full h-full border-none"
-                        />
+                            <iframe
+                                src={resume?.fileUrl.startsWith('http') ? `${resume.fileUrl}#toolbar=0` : "${process.env.NEXT_PUBLIC_API_URL}${resume?.fileUrl}#toolbar=0"}
+                                className="w-full h-full border-none"
+                            />
                         </div>
                     </div>
                 </div>
