@@ -20,7 +20,7 @@ export default function ListView() {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills`)
         const data: Skill[] = await  res.json()
-        const grouped = data.reduce<Record<string, Skill[]>>((acc :any, skill:any) => {
+        const grouped = data.reduce<Record<string, Skill[]>>((acc, skill) => {
           const category = skill.category;
           if (!acc[category]) acc[category] = [];
           acc[category].push(skill);
@@ -44,7 +44,7 @@ export default function ListView() {
 
   return (
 
-    <div className="max-w-6xl mx-auto space-y-14">
+    <div className="mx-auto w-full max-w-6xl space-y-14">
       {skills.map((group, index) => (
         <div key={index} className="relative">
           <div className="flex items-center gap-4 mb-8">
@@ -55,11 +55,11 @@ export default function ListView() {
             <div className="h-px flex-1 bg-linear-to-r from-transparent via-purple-500/40 to-transparent" />
           </div>
           
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6 md:gap-6">
             {group.skills.map((skill, i) => (
               <div
                 key={i}
-                className="p-6 group relative rounded-2xl bg-white/4 border border-white/10 backdrop-blur-lg flex flex-col items-center justify-center gap-4 hover:border-purple-500/60 hover:shadow-[0_0_30px_rgba(168,85,247,0.25)] transition-all duration-300 hover:-translate-y-1"
+                className="group relative flex flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/4 p-4 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/60 hover:shadow-[0_0_30px_rgba(168,85,247,0.25)] sm:p-6"
               >
                 <img src={skill.icon} alt={skill.name} className="w-8 h-8 object-contain" />
                 <p className="text-sm text-gray-200 font-semibold tracking-wide group-hover:text-purple-400 transition">

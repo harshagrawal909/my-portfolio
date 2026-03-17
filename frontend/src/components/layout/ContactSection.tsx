@@ -27,7 +27,7 @@ export default function ContactSection() {
         setResult("Transmission Failed. Interruption detected.");
         console.error("Error", data);
       }
-    } catch (error) {
+    } catch {
       setResult("Offline. Check your connection.");
     } finally {
       setIsSubmitting(false);
@@ -36,22 +36,22 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-transparent mb-8">
+    <section id="contact" className="relative mb-8 flex min-h-screen w-full items-center justify-center overflow-hidden bg-transparent px-4 py-16 sm:px-6">
 
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]" />
+      <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-purple-600/20 blur-[120px] animate-pulse sm:h-96 sm:w-96" />
+      <div className="absolute bottom-1/4 right-1/4 h-64 w-64 rounded-full bg-blue-600/10 blur-[120px] sm:h-96 sm:w-96" />
       
-      <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative z-10 w-full max-w-lg mx-4">
+      <div className="relative z-10 mx-auto w-full max-w-lg rounded-[2.5rem] border border-white/10 bg-white/5 p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:p-8">
 
         <div className="absolute inset-0 rounded-[2.5rem] bg-linear-to-r from-purple-600/20 to-blue-600/20 opacity-40 blur-xl pointer-events-none" />
 
         <div className="text-center mb-10">
 
-          <h2 className="text-4xl font-bold bg-linear-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent leading-tight uppercase">
+          <h2 className="text-3xl font-bold leading-tight uppercase bg-linear-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent sm:text-4xl">
             Transmit Message
           </h2>
 
-          <p className="text-gray-400 text-lg tracking-wide mt-2 leading-relaxed uppercase">Frequency: Open for Transmission</p>
+          <p className="mt-2 text-base leading-relaxed tracking-wide text-gray-400 uppercase sm:text-lg">Frequency: Open for Transmission</p>
           <div className="h-1 w-20 bg-purple-500 mx-auto rounded-full mt-4" />
         </div>
         

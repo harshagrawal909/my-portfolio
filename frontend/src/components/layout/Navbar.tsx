@@ -1,13 +1,11 @@
 "use client";
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { usePathname } from "next/navigation"; 
 import { useActiveSection } from '../hooks/useActiveSection';
 import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false); 
-    const pathname = usePathname();
     const links = [
         { href: "/#home", label: "Home", id:"home" },
         { href: "/#about", label: "About", id:"about" },
@@ -18,6 +16,15 @@ export default function Navbar() {
 
     const activeSection = useActiveSection(["home","about", "skills", "projects","contact"]);
 
+    const handleLogoClick = () => {
+        if (activeSection === "home") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+        }
+
+        window.location.href = "/";
+    };
+
     useEffect(() => {
         if (isOpen) {
         document.body.style.overflow = "hidden";
@@ -27,13 +34,13 @@ export default function Navbar() {
     }, [isOpen]);
 
     return (
-        <nav className="flex justify-between items-center px-10 py-6 fixed w-full z-50 backdrop-blur-xl border-b border-white/10 bg-transparent">
+        <nav className="fixed z-50 flex w-full items-center justify-between border-b border-white/10 bg-black/40 px-4 py-4 backdrop-blur-xl sm:px-6 md:px-10 md:py-6">
             
-            <h1 className="text-xl font-bold tracking-widest cursor-pointer" onClick={()=>{activeSection=="home" ? window.scrollTo({top:0, behavior:"smooth"}) : window.location.href="/"}}>
+            <h1 className="max-w-[calc(100%-4rem)] truncate text-lg font-bold tracking-[0.2em] cursor-pointer sm:max-w-none sm:text-xl" onClick={handleLogoClick}>
                 HARSH.AGRAWAL
             </h1>
 
-            <button className="md:hidden z-50 text-white" onClick={() => setIsOpen(!isOpen)}>
+            <button className="z-50 text-white md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}>
                 {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
 
@@ -58,7 +65,7 @@ export default function Navbar() {
             </div>
 
             <div
-                className={`fixed top-0 right-0 h-screen w-full bg-black/95 flex flex-col items-center justify-center space-y-10 text-xl transform transition-transform duration-300 md:hidden
+                className={`fixed top-0 right-0 flex h-[100svh] w-full flex-col items-center justify-center space-y-10 overflow-y-auto bg-black/95 px-6 text-xl transform transition-transform duration-300 md:hidden
                 ${isOpen ? "translate-x-0" : "translate-x-full"}`}
             >
                 {links.map((link) => (

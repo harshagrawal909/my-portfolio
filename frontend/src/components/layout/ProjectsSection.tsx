@@ -44,7 +44,7 @@ export default function ProjectsSection() {
     return (
         <section
         id="projects"
-        className="relative min-h-screen px-10 py-32 text-white bg-transparent"
+        className="relative min-h-screen overflow-hidden bg-transparent px-4 py-20 text-white sm:px-6 lg:px-10 lg:py-32"
         >
             <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.08),transparent_60%)]" />
 
@@ -55,11 +55,11 @@ export default function ProjectsSection() {
             </div>
             
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
                 {projects.map((project) => (
                     <div
                         key={project._id}
-                        className={`group relative p-7 rounded-2xl bg-linear-to-br from-white/5 to-white/2 border border-white/10 backdrop-blur-lg transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)]
+                        className={`group relative rounded-2xl border border-white/10 bg-linear-to-br from-white/5 to-white/2 p-5 backdrop-blur-lg transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] sm:p-7
                         `}
                     >
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.2),transparent_70%)] rounded-2xl pointer-events-none" />
@@ -93,7 +93,7 @@ export default function ProjectsSection() {
                             ))}
                         </div>
 
-                        <div className="flex gap-4 mt-4">
+                        <div className="mt-4 flex flex-wrap gap-3">
                             <a
                                 href={project.github}
                                 target="_blank"

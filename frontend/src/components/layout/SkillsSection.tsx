@@ -6,7 +6,7 @@ export default function SkillsSection() {
     return (
         <section
             id="skills"
-            className="relative w-full flex flex-col items-center overflow-visible perspective-1000 pt-20 bg-transparent"
+            className="relative flex w-full flex-col items-center overflow-visible bg-transparent px-4 pt-20 perspective-1000 sm:px-6 lg:px-10"
         >
             <StarField />
             <div className="relative z-20 flex flex-col items-center gap-6 mb-20">
