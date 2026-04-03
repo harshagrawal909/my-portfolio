@@ -4,6 +4,10 @@ import {useState,useEffect} from "react";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
+interface Resume {
+    fileUrl: string;
+    downloadUrl?: string;
+}
 
 const abouts = [
     { label: "Location", val: "Bhubaneswar, IN" },
@@ -14,20 +18,24 @@ const abouts = [
 
 export default function AboutSection() {
     const [showCV, setShowCV] = useState(false);
-    const resumeUrl = "/harsh_agrawal.pdf";
+    // const resumeUrl = "/harsh_agrawal.pdf";
+    const [resume, setResume] = useState<Resume | null>(null);
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     
-    // useEffect(() => {
-    //     const fetchResume = async () => {
-    //     try {
-    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
-    //         const data = await res.json();
-    //         setResume(data);
-    //     } catch (error) {
-    //         console.log("Error fetching resume:", error);
-    //     }
-    //     };
-    //     fetchResume();
-    // }, []);
+    useEffect(() => {
+        fetchResume();
+    }, []);
+
+    const fetchResume = async () => {
+        try {
+            const res = await fetch(`${apiUrl}/api/resume`);
+            const data = await res.json();
+            setResume(data);
+        } catch (error) {
+            console.error("Error fetching resume:", error);
+        }
+    };
 
     useEffect(() => {
         document.body.style.overflow = showCV ? "hidden" : "auto";
@@ -36,7 +44,7 @@ export default function AboutSection() {
 
     return (
         <section id="about" className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-20 sm:px-6 lg:px-10">
-            <div className="absolute top-1/2 left-1/2 -z-10 h-[70vw] w-[70vw] max-h-[38rem] max-w-[38rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-[120px]" />
+            <div className="absolute top-1/2 left-1/2 -z-10 h-[70vw] w-[70vw] max-h-152 max-w-152 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-[120px]" />
             <div className="grid w-full max-w-6xl grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12">
                 
                 <div className="space-y-6">
@@ -143,7 +151,7 @@ export default function AboutSection() {
                             <span className="px-1 text-xs font-bold uppercase tracking-widest text-gray-400 sm:px-4">Curriculum Vitae</span>
                             <div className="flex flex-wrap gap-2">
                                 <a 
-                                    href={resumeUrl} 
+                                    href={resume?.fileUrl} 
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="rounded-lg bg-white/5 px-4 py-2 text-xs text-gray-300 transition hover:bg-white/10"
@@ -160,10 +168,12 @@ export default function AboutSection() {
                         </div>
                         
                         <div className="flex-1 bg-white/5">
-                            <iframe
-                                src={`${resumeUrl}#toolbar=0`}
-                                className="w-full h-full border-none"
-                            />
+                            {resume && (
+                                <iframe
+                                    src={`${resume?.fileUrl}#toolbar=0`}
+                                    className="w-full h-full border-none"
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

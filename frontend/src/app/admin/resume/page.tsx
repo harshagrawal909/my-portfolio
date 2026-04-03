@@ -1,86 +1,64 @@
 "use client";
-import {useState,useEffect} from "react"
+import { useState, useEffect } from "react";
 import { FaCloudUploadAlt, FaRegFilePdf, FaEye, FaDownload } from "react-icons/fa";
 
-interface Resume{
-    fileUrl:string;
+interface Resume {
+    fileUrl: string;
     downloadUrl?: string;
 }
 
-export default function ResumeManager(){
-    const [resume,setResume] = useState<Resume | null>(null);
-    // const [file,setFile] = useState<File | null>(null);
+export default function ResumeManager() {
+    const [resume, setResume] = useState<Resume | null>(null);
+    const [file, setFile] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
-    // const resumeUrl = resume?.fileUrl
-    //     ? (resume.fileUrl.startsWith("http")
-    //         ? resume.fileUrl
-    //         : `${process.env.NEXT_PUBLIC_API_URL}${resume.fileUrl}`)
-    //     : null;
-    // const resumeDownloadUrl = resume?.downloadUrl
-    //     ? (resume.downloadUrl.startsWith("http")
-    //         ? resume.downloadUrl
-    //         : `${process.env.NEXT_PUBLIC_API_URL}${resume.downloadUrl}`)
-    //     : resumeUrl;
 
-    // useEffect(() => {
-    //     fetchResume();
-    // },[])
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    // const fetchResume = async() => {
-    //     try {
-    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
-    //         const data = await res.json();
-    //         setResume(data);
-    //     } catch (error) {
-    //         console.log("Error fetching resume:", error);
-    //     }
-    // }
+    useEffect(() => {
+        fetchResume();
+    }, []);
 
-    // const uploadResume = async() => {
-    //     if(!file) return;
-    //     setIsUploading(true);
-    //     const token = localStorage.getItem("token");
-    //     const formData = new FormData();
-    //     formData.append("resume", file);
+    const fetchResume = async () => {
+        try {
+            const res = await fetch(`${apiUrl}/api/resume`);
+            const data = await res.json();
+            setResume(data);
+        } catch (error) {
+            console.error("Error fetching resume:", error);
+        }
+    };
 
-    //     try {
-    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume/upload`, {
-    //             method: "POST",
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             },
-    //             body: formData
-    //         });
-    //         const raw = await res.text();
-    //         let data: { message?: string } = {};
+    const handleUpload = async () => {
+        if (!file) return;
+        setIsUploading(true);
+        const formData = new FormData();
+        formData.append("resume", file);
 
-    //         try {
-    //             data = raw ? JSON.parse(raw) : {};
-    //         } catch {
-    //             data = {
-    //                 message: res.ok
-    //                     ? "Upload completed"
-    //                     : `Upload failed with status ${res.status}`
-    //             };
-    //         }
-    
-    //         if (!res.ok) {
-    //             alert(data.message || "Upload failed");
-    //             return;
-    //         }
-    //         alert("Resume uploaded successfully");
-    //         setFile(null);
-    //         fetchResume();
-    //     } catch (error: any) {
-    //         alert(error.message);
-    //     } finally{
-    //         setIsUploading(false);
-    //     }
-    // }
+        try {
+            const res = await fetch(`${apiUrl}/api/resume/upload`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                body: formData
+            });
+
+            if (res.ok) {
+                alert("Resume synced to Cloudflare successfully!");
+                setFile(null);
+                fetchResume();
+            } else {
+                const errorData = await res.json();
+                alert(errorData.message || "Upload failed");
+            }
+        } catch (error) {
+            alert("An error occurred during upload.");
+        } finally {
+            setIsUploading(false);
+        }
+    };
 
     return (
         <div className="relative min-h-screen bg-[#050505] text-white p-10 overflow-hidden">
-            
+
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
                 <a 
                 href="/admin/dashboard"
@@ -107,8 +85,9 @@ export default function ResumeManager(){
             <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]" />
 
-            <div className="relative max-w-4xl mx-auto">
 
+            <div className="max-w-4xl mx-auto relative">
+                
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-extrabold bg-linear-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent uppercase tracking-tighter">
                         Resume Control Center
@@ -122,24 +101,27 @@ export default function ResumeManager(){
                             <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
                                 <FaCloudUploadAlt className="text-purple-400" /> Upload New
                             </h2>
-
                             <label className="group relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-white/10 rounded-2xl cursor-pointer hover:border-purple-500/50 hover:bg-purple-500/5 transition-all mb-6">
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                     <FaRegFilePdf className={`text-3xl mb-3 `} />
                                     <p className="text-sm text-gray-400 text-center px-4">
-                                        <span className="text-white font-medium">"Click to select or drag PDF"</span>  
+                                        {file ? (
+                                            <span className="text-green-400 font-medium">{file.name}</span>
+                                        ) : (
+                                            <span className="text-white font-medium">"Click to select or drag PDF file"</span>
+                                        )}
                                     </p>
                                 </div>
                                 <input
-                                    type="file" 
-                                    className="hidden"
-                                    accept=".pdf"
-                                    // onChange={(e) => e.target.files && setFile(e.target.files[0])}
+                                    type="file"
+                                    className="hidden" 
+                                    accept=".pdf" 
+                                    onChange={(e) => setFile(e.target.files?.[0] || null)} 
                                 />
                             </label>
                             <button
-                                // onClick={uploadResume}
-                                // disabled={!file || isUploading}
+                                onClick={handleUpload}
+                                disabled={!file || isUploading}
                                 className="w-full py-4 bg-linear-to-r from-purple-600 to-blue-600 rounded-xl font-bold uppercase tracking-widest text-xs shadow-lg shadow-purple-900/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100 transition-all cursor-pointer"
                             >
                                 {isUploading ? "Syncing..." : "Update Resume"}
@@ -153,37 +135,39 @@ export default function ResumeManager(){
                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
                                     <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                                 </span>
-                                
+
                                 {resume && (
                                     <div className="flex gap-2">
-                                        <a
-                                            href={undefined}
-                                            className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 transition"
-                                            title="Open in same tab"
+                                        <a 
+                                            href={resume.fileUrl} 
+                                            target="_blank" 
+                                            className="p-2 bg-white/5 rounded-lg"
                                         >
-                                        <FaEye />
+                                            <FaEye />
                                         </a>
-                                        <a
-                                            href={undefined}
-                                            download
-                                            className="p-2 bg-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white rounded-lg transition"
+                                        <a 
+                                            href={resume.fileUrl} 
+                                            className="p-2 bg-purple-500/20 text-purple-400 rounded-lg"
                                         >
-                                        <FaDownload />
+                                            <FaDownload />
                                         </a>
                                     </div>
                                 )}
                             </div>
-                            <div className="flex-1 bg-black/20 rounded-2xl overflow-hidden relative">
-                                <div className="absolute inset-0 flex items-center justify-center text-gray-600 text-sm">
-                                    No resume found in database.
-                                </div>
+                            <div className="flex-1 bg-black/40 rounded-2xl overflow-hidden relative m-2">
+                                {resume ? (
+                                    <iframe src={resume.fileUrl} className="w-full h-full rounded-2xl" title="Resume Preview" />
+                                ) : (
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-600 text-sm gap-2">
+                                        <FaRegFilePdf className="text-4xl opacity-20" />
+                                        <p>No resume found in database.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
-    )
+    );
 }
