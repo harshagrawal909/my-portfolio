@@ -11,10 +11,11 @@ export default function Navbar() {
         { href: "/#about", label: "About", id:"about" },
         { href: "/#skills", label: "Skills", id:"skills" },
         { href: "/#projects", label: "Projects", id:"projects" },
+        { href: "/#certificates", label: "Certificates", id:"certificates" },
         { href: "/#contact", label: "Contact", id:"contact" },
     ];
 
-    const activeSection = useActiveSection(["home","about", "skills", "projects","contact"]);
+    const activeSection = useActiveSection(["home","about", "skills", "projects", "certificates","contact"]);
 
     const handleLogoClick = () => {
         if (activeSection === "home") {
