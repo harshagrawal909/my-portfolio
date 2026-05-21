@@ -55,7 +55,7 @@ export default function CertificatesManager() {
             setDescription("");
             setProvider("");
             setLink("");
-            setVerified("");
+            setVerified(false);
             fetchCertificates();
         } catch (error) {
             console.error("Error adding certificate:", error);
