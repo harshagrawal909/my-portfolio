@@ -29,6 +29,7 @@ export default function AdminDashboard() {
     { name: "Manage Projects", route: "/admin/projects" },
     { name: "Edit Skills", route: "/admin/skills" },
     { name: "Manage Resume", route: "/admin/resume" },
+    { name: "Manage Certificates" , route : "/admin/certificates"}
   ];
 
   if (!user) return null;
