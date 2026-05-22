@@ -25,6 +25,11 @@ app.use("/api/projects", projectsRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/certificates",certificateRoutes)
 
+// Health check endpoint (for keep-alive pings)
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 app.use((err, req, res, next) => {
   console.error("Server error:", err);
 

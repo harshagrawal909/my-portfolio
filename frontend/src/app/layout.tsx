@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StarField from "@/components/effects/StarField";
 import TechParticles from "@/components/effects/TechPartical";
+import KeepAlive from "@/components/utils/KeepAlive";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <StarField />
         <TechParticles />
+        <KeepAlive />
         {children}
       </body>
     </html>
