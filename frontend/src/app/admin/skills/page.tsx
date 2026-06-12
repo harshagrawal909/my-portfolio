@@ -140,6 +140,7 @@ export default function SkillsManager() {
                 <option className="bg-gray-900">Language</option>
                 <option className="bg-gray-900">Frontend</option>
                 <option className="bg-gray-900">Backend</option>
+                <option className="bg-gray-900">Mobile & App Dev</option>
                 <option className="bg-gray-900">Tools</option>
               </select>
             </div>
