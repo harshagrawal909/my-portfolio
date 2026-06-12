@@ -168,7 +168,7 @@ export default function SkillsManager() {
           </div>
         </div>
 
-        {["Language", "Frontend", "Backend", "Tools"].map((cat) => {
+        {["Language", "Frontend", "Backend", "Tools", "Mobile & App Dev"].map((cat) => {
           const filteredSkills = skills.filter((s) => s.category === cat);
           if (filteredSkills.length === 0) return null;
 
