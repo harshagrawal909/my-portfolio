@@ -37,9 +37,9 @@ export default function Navbar() {
     return (
         <nav className="fixed z-50 flex w-full items-center justify-between border-b border-white/10 bg-black/40 px-4 py-4 backdrop-blur-xl sm:px-6 md:px-10 md:py-6">
             
-            <h1 className="max-w-[calc(100%-4rem)] truncate text-lg font-bold tracking-[0.2em] cursor-pointer sm:max-w-none sm:text-xl" onClick={handleLogoClick}>
+            <div className="max-w-[calc(100%-4rem)] truncate text-lg font-bold tracking-[0.2em] cursor-pointer sm:max-w-none sm:text-xl" onClick={handleLogoClick}>
                 HARSH.AGRAWAL
-            </h1>
+            </div>
 
             <button className="z-50 text-white md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}>
                 {isOpen ? <X size={28} /> : <Menu size={28} />}

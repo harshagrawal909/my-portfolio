@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface Project {
@@ -19,15 +20,16 @@ export default function ProjectsManager() {
     const [github, setGithub] = useState("");
     const [demo, setDemo] = useState("");
 
-    useEffect(() => {
-        fetchProjects();
-    }, []);
-
-    const fetchProjects = async () => {
+    async function fetchProjects() {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`);
         const data = await res.json();
         setProjects(data);
     }
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchProjects();
+    }, []);
 
     const addProject = async() => {
         try {
@@ -90,7 +92,7 @@ export default function ProjectsManager() {
     return (
         <div className="relative min-h-screen w-full bg-[#050505] text-white p-10 overflow-hidden">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
-                <a 
+                <Link 
                 href="/admin/dashboard"
                 className="flex items-center gap-2 px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-gray-300 hover:text-white transition-all duration-300 group cursor-pointer"
                 >
@@ -98,18 +100,17 @@ export default function ProjectsManager() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                     <span className="text-sm font-medium tracking-wide">Back to Dashboard</span>
-                </a>
+                </Link>
 
-                <a 
+                <Link 
                 href="/" 
-                rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-2.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-400 hover:text-purple-300 transition-all duration-300 group cursor-pointer"
                 >
                     <span className="text-sm font-medium tracking-wide">Return to Portfolio</span>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                </a>
+                </Link>
             </div>
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]" />

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaCloudUploadAlt, FaRegFilePdf, FaEye, FaDownload } from "react-icons/fa";
 
@@ -14,11 +15,7 @@ export default function ResumeManager() {
 
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    useEffect(() => {
-        fetchResume();
-    }, []);
-
-    const fetchResume = async () => {
+    async function fetchResume() {
         try {
             const res = await fetch(`${apiUrl}/api/resume`);
             const data = await res.json();
@@ -26,7 +23,21 @@ export default function ResumeManager() {
         } catch (error) {
             console.error("Error fetching resume:", error);
         }
-    };
+    }
+
+    useEffect(() => {
+        const fetchResumeOnMount = async () => {
+            try {
+                const res = await fetch(`${apiUrl}/api/resume`);
+                const data = await res.json();
+                setResume(data);
+            } catch (error) {
+                console.error("Error fetching resume:", error);
+            }
+        };
+
+        fetchResumeOnMount();
+    }, [apiUrl]);
 
     const handleUpload = async () => {
         if (!file) return;
@@ -49,7 +60,7 @@ export default function ResumeManager() {
                 const errorData = await res.json();
                 alert(errorData.message || "Upload failed");
             }
-        } catch (error) {
+        } catch {
             alert("An error occurred during upload.");
         } finally {
             setIsUploading(false);
@@ -60,7 +71,7 @@ export default function ResumeManager() {
         <div className="relative min-h-screen bg-[#050505] text-white p-10 overflow-hidden">
 
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
-                <a 
+                <Link 
                 href="/admin/dashboard"
                 className="flex items-center gap-2 px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-gray-300 hover:text-white transition-all duration-300 group cursor-pointer"
                 >
@@ -68,18 +79,17 @@ export default function ResumeManager() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                     <span className="text-sm font-medium tracking-wide">Back to Dashboard</span>
-                </a>
+                </Link>
 
-                <a 
+                <Link 
                 href="/" 
-                rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-2.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-400 hover:text-purple-300 transition-all duration-300 group cursor-pointer"
                 >
                     <span className="text-sm font-medium tracking-wide">Return to Portfolio</span>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                </a>
+                </Link>
             </div>
 
             <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
@@ -108,7 +118,7 @@ export default function ResumeManager() {
                                         {file ? (
                                             <span className="text-green-400 font-medium">{file.name}</span>
                                         ) : (
-                                            <span className="text-white font-medium">"Click to select or drag PDF file"</span>
+                                            <span className="text-white font-medium">&quot;Click to select or drag PDF file&quot;</span>
                                         )}
                                     </p>
                                 </div>
@@ -141,6 +151,7 @@ export default function ResumeManager() {
                                         <a 
                                             href={resume.fileUrl} 
                                             target="_blank" 
+                                            rel="noopener noreferrer"
                                             className="p-2 bg-white/5 rounded-lg"
                                         >
                                             <FaEye />

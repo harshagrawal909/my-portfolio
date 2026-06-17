@@ -13,9 +13,13 @@ interface Project{
 export default function ProjectsSection() {
     const [projects,setProjects] = useState<Project[]>([]);
     const [loading,setLoading] = useState(true)
+    const [error,setError] = useState("");
     useEffect(() => {
         const fetchProjects = async () => {
             try {
+                if (!process.env.NEXT_PUBLIC_API_URL) {
+                    throw new Error("API URL is not configured");
+                }
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`)
                 if (!res.ok) {
                     throw new Error("Failed to fetch projects");
@@ -24,6 +28,7 @@ export default function ProjectsSection() {
                 setProjects(data);
             } catch (error) {
                 console.error("Error fetching projects:", error);
+                setError("Unable to load projects right now.");
             } finally{
                 setLoading(false);
             }
@@ -56,6 +61,12 @@ export default function ProjectsSection() {
             
 
             <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+                {error && (
+                    <p className="col-span-full text-center text-gray-400">{error}</p>
+                )}
+                {!error && projects.length === 0 && (
+                    <p className="col-span-full text-center text-gray-400">Projects will appear here soon.</p>
+                )}
                 {projects.map((project) => (
                     <div
                         key={project._id}
@@ -97,6 +108,7 @@ export default function ProjectsSection() {
                             <a
                                 href={project.github}
                                 target="_blank"
+                                rel="noopener noreferrer"
                                 className="px-4 py-2 text-sm rounded-lg border border-purple-500/40 text-purple-300 hover:bg-purple-500/20 transition"
                             >
                                 GitHub
@@ -105,6 +117,7 @@ export default function ProjectsSection() {
                             <a
                                 href={project.demo}
                                 target="_blank"
+                                rel="noopener noreferrer"
                                 className="px-4 py-2 text-sm rounded-lg bg-purple-600 hover:bg-purple-700 transition"
                             >
                                 Live Demo

@@ -24,9 +24,13 @@ export default function CertificatesSection(){
 
     const [certificates,setCertificates] = useState<Certificate[]>([]);
     const [loading,setLoading] = useState(true)
+    const [error,setError] = useState("");
     useEffect(() => {
         const fetchCertificates = async () => {
             try {
+                if (!process.env.NEXT_PUBLIC_API_URL) {
+                    throw new Error("API URL is not configured");
+                }
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/certificates`)
                 if (!res.ok) {
                     throw new Error("Failed to fetch certificates");
@@ -35,6 +39,7 @@ export default function CertificatesSection(){
                 setCertificates(data);
             } catch (error) {
                 console.error("Error fetching certificates:", error);
+                setError("Unable to load certificates right now.");
             } finally{
                 setLoading(false);
             }
@@ -62,6 +67,12 @@ export default function CertificatesSection(){
             </div>
 
             <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+                {error && (
+                    <p className="col-span-full text-center text-gray-400">{error}</p>
+                )}
+                {!error && certificates.length === 0 && (
+                    <p className="col-span-full text-center text-gray-400">Certificates will appear here soon.</p>
+                )}
                 {certificates.map((certificate) => (
                     <div
                         key={certificate._id}

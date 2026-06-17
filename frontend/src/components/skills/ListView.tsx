@@ -14,11 +14,18 @@ interface SkillCategory {
 export default function ListView() {
   const [skills,setSkills] = useState<SkillCategory[]>([]);
   const [loading,setLoading] = useState(true)
+  const [error,setError] = useState("");
 
   useEffect(() => {
     const fetchSkills = async () => {
       try {
+        if (!process.env.NEXT_PUBLIC_API_URL) {
+          throw new Error("API URL is not configured");
+        }
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills`)
+        if (!res.ok) {
+          throw new Error("Failed to fetch skills");
+        }
         const data: Skill[] = await  res.json()
         const grouped = data.reduce<Record<string, Skill[]>>((acc, skill) => {
           const category = skill.category;
@@ -33,6 +40,7 @@ export default function ListView() {
         setSkills(formattedSkills);
       } catch (error) {
         console.error("Failed to fetch skills:", error);
+        setError("Unable to load skills right now.");
       } finally{
         setLoading(false);
       }
@@ -41,6 +49,8 @@ export default function ListView() {
   }, [])
 
   if (loading) return <div className="text-center text-purple-400 py-20 uppercase tracking-widest">Loading Arsenal...</div>;
+  if (error) return <div className="text-center text-gray-400 py-20">{error}</div>;
+  if (skills.length === 0) return <div className="text-center text-gray-400 py-20">Skills will appear here soon.</div>;
 
   return (
 
@@ -61,7 +71,7 @@ export default function ListView() {
                 key={i}
                 className="group relative flex flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/4 p-4 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/60 hover:shadow-[0_0_30px_rgba(168,85,247,0.25)] sm:p-6"
               >
-                <img src={skill.icon} alt={skill.name} className="w-8 h-8 object-contain" />
+                {skill.icon && <img src={skill.icon} alt={skill.name} className="w-8 h-8 object-contain" />}
                 <p className="text-sm text-gray-200 font-semibold tracking-wide group-hover:text-purple-400 transition">
                   {skill.name}
                 </p>
