@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     default: "Harsh Agrawal | Full-Stack Developer & AI Systems Engineer",
     template: "%s | Harsh Agrawal",
   },
-  description: "Portfolio of Harsh Agrawal, a Computer Science Engineer specializing in Full-Stack development, AI-driven solutions, and digital experiences.",
+  description: "Portfolio of Harsh Agrawal, a final-year Computer Science student at KIIT University specializing in Full-Stack development, AI-driven solutions, and digital experiences.",
   keywords: [
     "Harsh Agrawal",
     "Harsh Agrawal Developer",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://itsharsh.dev",
     title: "Harsh Agrawal | Full-Stack Developer & AI Systems Engineer",
-    description: "Portfolio of Harsh Agrawal, a Computer Science Engineer specializing in Full-Stack development, AI-driven solutions, and digital experiences.",
+    description: "Portfolio of Harsh Agrawal, a final-year Computer Science student at KIIT University specializing in Full-Stack development, AI-driven solutions, and digital experiences.",
     siteName: "Harsh Agrawal Portfolio",
     images: [
       {
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Harsh Agrawal | Full-Stack Developer & AI Systems Engineer",
-    description: "Portfolio of Harsh Agrawal, a Computer Science Engineer specializing in Full-Stack development, AI-driven solutions, and digital experiences.",
+    description: "Portfolio of Harsh Agrawal, a final-year Computer Science student at KIIT University specializing in Full-Stack development, AI-driven solutions, and digital experiences.",
     images: ["/my-photo.jpeg"],
     creator: "@harshagrawal909",
   },
@@ -85,15 +85,15 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Harsh Agrawal",
-              "url": "https://harshagrawal.dev", // Replace with your actual domain
-              "image": "https://harshagrawal.dev/my-photo.jpeg",
+              "url": "https://itsharsh.dev",
+              "image": "https://itsharsh.dev/my-photo.jpeg",
               "sameAs": [
                 "https://github.com/harshagrawal909",
                 "https://linkedin.com/in/harshagrawal42",
                 "https://instagram.com/harshagrawal909"
               ],
-              "jobTitle": "Software Engineer & Full-Stack Developer",
-              "alumniOf": {
+              "jobTitle": "Student & Software Developer",
+              "memberOf": {
                 "@type": "EducationalOrganization",
                 "name": "KIIT University"
               },

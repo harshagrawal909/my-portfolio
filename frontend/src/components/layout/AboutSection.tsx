@@ -14,7 +14,7 @@ const fallbackResumeUrl = "/harsh_agrawal.pdf";
 
 const abouts = [
   { label: "Location", val: "Bhubaneswar, IN" },
-  { label: "Education", val: "B.Tech CSE - KIIT University" },
+  { label: "Education", val: "B.Tech CSE (Final Year) - KIIT" },
   { label: "Focus", val: "Full-Stack & AI Systems" },
   { label: "Status", val: "Open to Opportunities" },
 ];
@@ -69,7 +69,7 @@ export default function AboutSection() {
           </h2>
           <p className="text-base leading-relaxed text-gray-400 sm:text-lg">
             Hi, I&apos;m <span className="font-medium text-purple-400">Harsh Agrawal</span>, a{" "}
-            <span className="text-purple-400">Computer Science engineer</span> fascinated by how ideas evolve into real
+            <span className="text-purple-400">final-year Computer Science student</span> fascinated by how ideas evolve into real
             systems people use every day. I build <span className="text-purple-400">full-stack applications</span>,
             explore <span className="text-purple-400">AI-driven solutions</span>, and enjoy designing{" "}
             <span className="text-purple-400">digital experiences</span> that feel simple, fast, and meaningful. What
