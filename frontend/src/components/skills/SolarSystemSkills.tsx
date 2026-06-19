@@ -51,7 +51,7 @@ function SkillPlanet({
         roughness={0.1}
         metalness={0.8}
       />
-      <Html distanceFactor={8} center>
+      <Html distanceFactor={8} center pointerEvents="none">
         <div className="flex items-center justify-center w-8 h-8 bg-black/60 backdrop-blur-md border border-purple-500/30 rounded-full shadow-lg hover:scale-125 transition-transform duration-300 pointer-events-none select-none">
           {icon ? (
             <img src={icon} alt={name} className="w-5 h-5 object-contain" />
@@ -104,7 +104,7 @@ function OrbitGroup({
     <group rotation={[tiltX, 0, tiltZ]}>
       <OrbitLine radius={radius} />
 
-      <Html position={[radius, 0, 0]} distanceFactor={10} center>
+      <Html position={[radius, 0, 0]} distanceFactor={10} center pointerEvents="none">
         <div className="px-2 py-0.5 bg-purple-950/80 border border-purple-500/30 text-[9px] font-bold text-purple-300 rounded uppercase tracking-widest whitespace-nowrap pointer-events-none select-none">
           {category}
         </div>
@@ -148,7 +148,7 @@ function CentralCore() {
         wireframe
       />
       <pointLight color="#d946ef" intensity={3} distance={20} decay={2} />
-      <Html distanceFactor={6} center>
+      <Html distanceFactor={6} center pointerEvents="none">
         <div className="px-3 py-1.5 bg-purple-600/20 backdrop-blur-xl border border-pink-500/30 rounded-xl text-center select-none pointer-events-none shadow-[0_0_25px_rgba(217,70,239,0.3)]">
           <span className="text-[10px] md:text-[11px] font-black text-pink-400 tracking-[0.2em] uppercase whitespace-nowrap">Core</span>
         </div>
@@ -238,7 +238,8 @@ export default function SolarSystemSkills() {
           enablePan={false}
           maxDistance={25}
           minDistance={6}
-          autoRotate={false}
+          autoRotate={true}
+          autoRotateSpeed={0.5}
         />
       </Canvas>
     </div>
