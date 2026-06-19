@@ -52,9 +52,12 @@ function SkillPlanet({
         metalness={0.8}
       />
       <Html distanceFactor={8} center>
-        <div className="flex items-center gap-1.5 px-3 py-1 bg-black/80 backdrop-blur-md border border-purple-500/40 rounded-full shadow-lg shadow-purple-500/20 select-none pointer-events-none whitespace-nowrap transition-transform hover:scale-110">
-          {icon && <img src={icon} alt={name} className="w-4.5 h-4.5 object-contain" />}
-          <span className="text-[10px] md:text-xs font-semibold text-white tracking-wide">{name}</span>
+        <div className="flex items-center justify-center w-8 h-8 bg-black/60 backdrop-blur-md border border-purple-500/30 rounded-full shadow-lg hover:scale-125 transition-transform duration-300 pointer-events-none select-none">
+          {icon ? (
+            <img src={icon} alt={name} className="w-5 h-5 object-contain" />
+          ) : (
+            <span className="text-[9px] font-bold text-purple-300 uppercase">{name.substring(0, 2)}</span>
+          )}
         </div>
       </Html>
     </mesh>
@@ -204,7 +207,7 @@ export default function SolarSystemSkills() {
       {/* Instructions Overlay */}
       <div className="absolute top-4 left-4 z-30 pointer-events-none">
         <span className="text-[10px] text-white/40 uppercase tracking-widest bg-black/40 px-3 py-1.5 rounded-full border border-white/5">
-          Drag to Orbit • Scroll to Zoom
+          Drag to Orbit
         </span>
       </div>
 
@@ -231,7 +234,7 @@ export default function SolarSystemSkills() {
         })}
 
         <OrbitControls
-          enableZoom={true}
+          enableZoom={false}
           enablePan={false}
           maxDistance={25}
           minDistance={6}
