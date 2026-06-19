@@ -203,45 +203,52 @@ export default function SolarSystemSkills() {
   if (skills.length === 0) return <div className="text-center text-gray-400 py-20">Skills will appear here soon.</div>;
 
   return (
-    <div className="relative w-full h-[550px] md:h-[650px] bg-black/30 border border-white/5 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-sm select-none">
-      {/* Instructions Overlay */}
-      <div className="absolute top-4 left-4 z-30 pointer-events-none">
-        <span className="text-[10px] text-white/40 uppercase tracking-widest bg-black/40 px-3 py-1.5 rounded-full border border-white/5">
-          Drag to Orbit
-        </span>
+    <div className="w-full max-w-6xl mx-auto px-6 sm:px-12 md:px-20 lg:px-28">
+      <div className="relative w-full h-[550px] md:h-[650px] bg-black/30 border border-white/5 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-sm select-none">
+        {/* Instructions Overlay */}
+        <div className="absolute top-4 left-4 z-30 pointer-events-none">
+          <span className="text-[10px] text-white/40 uppercase tracking-widest bg-black/40 px-3 py-1.5 rounded-full border border-white/5">
+            Drag to Orbit
+          </span>
+        </div>
+        <div className="absolute top-4 right-4 z-30 pointer-events-none">
+          <span className="text-[10px] text-white/40 uppercase tracking-widest bg-black/40 px-3 py-1.5 rounded-full border border-white/5">
+            Scroll sides to scroll page
+          </span>
+        </div>
+
+        <Canvas camera={{ position: [0, 8, 14], fov: 60 }} dpr={[1, 2]}>
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[5, 10, 5]} intensity={0.6} />
+
+          {/* Central Core (Sun) */}
+          <CentralCore />
+
+          {/* Categories as Orbital Planes */}
+          {skills.map((group, index) => {
+            // Equally spaced radii starting at 3.5
+            const radius = (index * 2.3) + 3.5;
+            return (
+              <OrbitGroup
+                key={group.category || index}
+                category={group.category}
+                skills={group.skills}
+                radius={radius}
+                index={index}
+              />
+            );
+          })}
+
+          <OrbitControls
+            enableZoom={true}
+            enablePan={false}
+            maxDistance={25}
+            minDistance={6}
+            autoRotate={true}
+            autoRotateSpeed={0.5}
+          />
+        </Canvas>
       </div>
-
-      <Canvas camera={{ position: [0, 8, 14], fov: 60 }} dpr={[1, 2]}>
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 10, 5]} intensity={0.6} />
-
-        {/* Central Core (Sun) */}
-        <CentralCore />
-
-        {/* Categories as Orbital Planes */}
-        {skills.map((group, index) => {
-          // Equally spaced radii starting at 3.5
-          const radius = (index * 2.3) + 3.5;
-          return (
-            <OrbitGroup
-              key={group.category || index}
-              category={group.category}
-              skills={group.skills}
-              radius={radius}
-              index={index}
-            />
-          );
-        })}
-
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          maxDistance={25}
-          minDistance={6}
-          autoRotate={true}
-          autoRotateSpeed={0.5}
-        />
-      </Canvas>
     </div>
   );
 }
