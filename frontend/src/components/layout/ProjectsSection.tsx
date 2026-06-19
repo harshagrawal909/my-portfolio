@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
+import ProjectShowroom from "../skills/ProjectShowroom";
 
 interface Project{
     _id:string;
@@ -14,6 +15,8 @@ export default function ProjectsSection() {
     const [projects,setProjects] = useState<Project[]>([]);
     const [loading,setLoading] = useState(true)
     const [error,setError] = useState("");
+    const [viewMode, setViewMode] = useState<"grid" | "showroom">("grid");
+
     useEffect(() => {
         const fetchProjects = async () => {
             try {
@@ -53,83 +56,107 @@ export default function ProjectsSection() {
         >
             <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.08),transparent_60%)]" />
 
-            <div className="relative z-20 flex flex-col items-center gap-6 mb-20">
+            <div className="relative z-20 flex flex-col items-center gap-6 mb-8">
                 <h2 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(168,85,247,0.5)] pb-2">
                     Projects
                 </h2>
             </div>
-            
 
-            <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-                {error && (
-                    <p className="col-span-full text-center text-gray-400">{error}</p>
-                )}
-                {!error && projects.length === 0 && (
-                    <p className="col-span-full text-center text-gray-400">Projects will appear here soon.</p>
-                )}
-                {projects.map((project) => (
-                    <div
-                        key={project._id}
-                        className={`group relative rounded-2xl border border-white/10 bg-linear-to-br from-white/5 to-white/2 p-5 backdrop-blur-lg transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] sm:p-7
-                        `}
-                    >
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.2),transparent_70%)] rounded-2xl pointer-events-none" />
-
-                        <div className="h-40 rounded-lg overflow-hidden mb-6">
-                            <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                                <img
-                                    src={`https://api.microlink.io/?url=${project.demo}&screenshot=true&meta=false&embed=screenshot.url`}
-                                    alt={project.title}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition duration-500 cursor-pointer"
-                                />
-                            </a>
-                        </div>
-
-                        <h3 className={`font-semibold mb-4 text-xl`}>
-                            {project.title}
-                        </h3>
-
-                        <p className="text-gray-300 mb-4">
-                            {project.description}
-                        </p>
-
-                        <div className="flex flex-wrap gap-2 mb-4">
-                            {project.tech.map((tech) => (
-                                <span
-                                    key={tech}
-                                    className="text-xs px-3 py-1 rounded-full border border-purple-500/40 text-purple-300 bg-purple-500/10"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
-                        </div>
-
-                        <div className="mt-4 flex flex-wrap gap-3">
-                            <a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-4 py-2 text-sm rounded-lg border border-purple-500/40 text-purple-300 hover:bg-purple-500/20 transition"
-                            >
-                                GitHub
-                            </a>
-
-                            <a
-                                href={project.demo}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-4 py-2 text-sm rounded-lg bg-purple-600 hover:bg-purple-700 transition"
-                            >
-                                Live Demo
-                            </a>
-                        </div>
-                    </div>
-                ))}
+            {/* View Mode Toggle Buttons */}
+            <div className="relative z-30 flex gap-4 p-1.5 bg-white/5 border border-white/10 rounded-2xl mb-12 shadow-lg backdrop-blur-md w-fit mx-auto">
+                <button
+                    onClick={() => setViewMode("grid")}
+                    className={`px-6 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                        viewMode === "grid"
+                            ? "bg-purple-600 text-white shadow-lg shadow-purple-500/30 scale-105"
+                            : "text-gray-400 hover:text-white"
+                    }`}
+                >
+                    📋 Grid View
+                </button>
+                <button
+                    onClick={() => setViewMode("showroom")}
+                    className={`px-6 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                        viewMode === "showroom"
+                            ? "bg-purple-600 text-white shadow-lg shadow-purple-500/30 scale-105"
+                            : "text-gray-400 hover:text-white"
+                    }`}
+                >
+                    💻 3D Showroom
+                </button>
             </div>
+            
+            <div className="w-full relative z-20 transition-all duration-500">
+                {viewMode === "showroom" ? (
+                    <ProjectShowroom projects={projects} />
+                ) : (
+                    <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+                        {error && (
+                            <p className="col-span-full text-center text-gray-400">{error}</p>
+                        )}
+                        {!error && projects.length === 0 && (
+                            <p className="col-span-full text-center text-gray-400">Projects will appear here soon.</p>
+                        )}
+                        {projects.map((project) => (
+                            <div
+                                key={project._id}
+                                className={`group relative rounded-2xl border border-white/10 bg-linear-to-br from-white/5 to-white/2 p-5 backdrop-blur-lg transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] sm:p-7`}
+                            >
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.2),transparent_70%)] rounded-2xl pointer-events-none" />
 
+                                <div className="h-40 rounded-lg overflow-hidden mb-6">
+                                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                                        <img
+                                            src={`https://api.microlink.io/?url=${project.demo}&screenshot=true&meta=false&embed=screenshot.url`}
+                                            alt={project.title}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition duration-500 cursor-pointer"
+                                        />
+                                    </a>
+                                </div>
 
+                                <h3 className={`font-semibold mb-4 text-xl`}>
+                                    {project.title}
+                                </h3>
+
+                                <p className="text-gray-300 mb-4">
+                                    {project.description}
+                                </p>
+
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    {project.tech.map((tech) => (
+                                        <span
+                                            key={tech}
+                                            className="text-xs px-3 py-1 rounded-full border border-purple-500/40 text-purple-300 bg-purple-500/10"
+                                        >
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <div className="mt-4 flex flex-wrap gap-3">
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-4 py-2 text-sm rounded-lg border border-purple-500/40 text-purple-300 hover:bg-purple-500/20 transition"
+                                    >
+                                        GitHub
+                                    </a>
+
+                                    <a
+                                        href={project.demo}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-4 py-2 text-sm rounded-lg bg-purple-600 hover:bg-purple-700 transition"
+                                    >
+                                        Live Demo
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </section>
-
-        
     );
 }
