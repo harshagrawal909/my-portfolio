@@ -1,7 +1,7 @@
 import Certificate from "../models/Certificate.js"
 
 export const getCertificates = async (req, res) => {
-    const certificates = await Certificate.find();
+    const certificates = await Certificate.find().sort({ order: 1, createdAt: -1 });
     res.json(certificates);
 }
 
@@ -28,5 +28,21 @@ export const deleteCertificate = async (req, res) => {
     } catch (error) {
         console.error("Error deleting Certificate:", error);
         res.status(500).json({ message: "Server Error" });
+    }
+}
+
+export const updateCertificate = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedCertificate = await Certificate.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+        
+        if (!updatedCertificate) {
+            return res.status(404).json({ message: "Certificate not found" });
+        }
+        
+        res.json(updatedCertificate);
+    } catch (error) {
+        console.error("Error updating Certificate:", error);
+        res.status(500).json({ message: "Server Error", error: error.message });
     }
 }

@@ -15,6 +15,10 @@ const CertificateSchema = new Schema({
         required: true
     },
     verified: Boolean,
+    order: {
+        type: Number,
+        default: 0
+    },
 }, { timestamps: true });
 
 export default model("Certificate",CertificateSchema);
