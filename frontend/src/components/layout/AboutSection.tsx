@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { SiLeetcode } from "react-icons/si";
 import Image from "next/image";
 
 interface Resume {
@@ -110,6 +111,9 @@ export default function AboutSection() {
               </a>
               <a href="mailto:harshagrawal5843@gmail.com" className="transition hover:text-purple-400">
                 <MdEmail />
+              </a>
+              <a href="https://leetcode.com/u/x3q2h0XgZ6/" className="transition hover:text-purple-400">
+                <SiLeetcode />
               </a>
             </div>
           </div>
